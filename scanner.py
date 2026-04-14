@@ -31,43 +31,29 @@ MAX_WORKERS      = 20               # parallel threads
 TOP_N            = 20               # stocks in final report
 
 # ── Stock Universe ─────────────────────────────────────────────────────────────
+
 def get_stock_universe():
-    """
-    Returns a broad list of NASDAQ + NYSE large/mid-cap tickers.
-    We use a curated list of ~1500 liquid stocks to avoid junk.
-    For a truly exhaustive scan, replace with an API like Polygon.io screener.
-    """
-    # S&P 500 from Wikipedia
-    try:
-        sp500 = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]
-        sp500_tickers = sp500['Symbol'].str.replace('.', '-', regex=False).tolist()
-        logger.info(f"Loaded {len(sp500_tickers)} S&P 500 tickers")
-    except Exception as e:
-        logger.warning(f"Could not load S&P500 list: {e}")
-        sp500_tickers = []
-
-    # NASDAQ-100
-    try:
-        ndx = pd.read_html('https://en.wikipedia.org/wiki/Nasdaq-100')[4]
-        ndx_tickers = ndx['Ticker'].tolist()
-        logger.info(f"Loaded {len(ndx_tickers)} NDX tickers")
-    except Exception as e:
-        logger.warning(f"Could not load NDX list: {e}")
-        ndx_tickers = []
-
-    # Russell 1000 proxy — large/mid caps on NYSE
-    try:
-        r1000 = pd.read_html('https://en.wikipedia.org/wiki/Russell_1000_Index')[2]
-        r1000_tickers = r1000['Ticker'].tolist() if 'Ticker' in r1000.columns else []
-        logger.info(f"Loaded {len(r1000_tickers)} Russell 1000 tickers")
-    except Exception as e:
-        logger.warning(f"Could not load Russell 1000 list: {e}")
-        r1000_tickers = []
-
-    all_tickers = list(set(sp500_tickers + ndx_tickers + r1000_tickers))
-    logger.info(f"Total unique tickers in universe: {len(all_tickers)}")
-    return all_tickers
-
+    tickers = [
+        "AAPL","MSFT","NVDA","GOOGL","AMZN","META","TSLA","AVGO","JPM","V",
+        "MA","UNH","XOM","LLY","JNJ","PG","HD","MRK","ABBV","COST","ORCL",
+        "BAC","KO","PEP","ADBE","CRM","AMD","NFLX","TMO","ACN","MCD","CSCO",
+        "ABT","WMT","DHR","NEE","TXN","PM","CAT","QCOM","AMGN","GE","INTU",
+        "MS","IBM","RTX","SPGI","LOW","GS","ELV","ISRG","HON","AMAT","NOW",
+        "BKNG","TJX","SYK","VRTX","ADP","MDLZ","GILD","MMC","BLK","PLD",
+        "REGN","ADI","PANW","LRCX","MU","KLAC","SNPS","CDNS","MRVL","FICO",
+        "FTNT","CRWD","WDAY","DDOG","ZS","NET","MDB","SNOW","PLTR","APP",
+        "AXON","DECK","CELH","GDDY","TTD","HUBS","PAYC","VEEV","CPRT","MPWR",
+        "WST","IDXX","PODD","ALGN","EW","DXCM","MTD","WAT","A","BIO",
+        "JPM","BAC","WFC","C","GS","MS","AXP","BX","KKR","APO",
+        "XOM","CVX","COP","EOG","SLB","MPC","PSX","VLO","OXY","HES",
+        "LIN","APD","SHW","ECL","DD","DOW","PPG","NUE","FCX","ALB",
+        "DIS","CMCSA","CHTR","WBD","PARA","FOX","NYT","SPOT","RBLX","EA",
+        "UNP","UPS","FDX","CSX","NSC","DAL","UAL","LUV","AAL","JBLU",
+        "PFE","BMY","MRNA","BIIB","ILMN","IQV","CRL","CTLT","VTRS","ZBH",
+        "AMT","PLD","CCI","EQIX","SPG","O","WELL","DLR","PSA","EXR"
+    ]
+    logger.info(f"Total unique tickers in universe: {len(tickers)}")
+    return tickers
 
 # ── Technical Indicators ───────────────────────────────────────────────────────
 def compute_rsi(series, period=14):
