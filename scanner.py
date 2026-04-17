@@ -39,11 +39,12 @@ TOP_N             = 25
 # ── Stock Universe ─────────────────────────────────────────────────────────────
 def get_stock_universe():
     tickers = [
-        # Mega Cap Tech
+      # Mega Cap Tech & Semiconductors
         "AAPL","MSFT","NVDA","GOOGL","GOOG","AMZN","META","TSLA","AVGO","ORCL",
         "ADBE","CRM","CSCO","QCOM","TXN","AMD","MU","AMAT","LRCX","KLAC",
         "SNPS","CDNS","MRVL","MPWR","ANSS","ENTG","ONTO","COHR","WOLF","SWKS",
         "QRVO","ACLS","MKSI","IPGP","IIVI","FORM","ICHR","UCTT","CAMT","PLAB",
+        "INTC","IBM","HPE","STM","NXPI","ON","MCHP","TEL","APH","NBIS","SAP",
 
         # Cloud / SaaS
         "NOW","PANW","CRWD","FTNT","ZS","NET","OKTA","S","QLYS","TENB",
@@ -51,34 +52,41 @@ def get_stock_universe():
         "DT","FIVN","NICE","TOST","BILL","HUBS","TTD","APP","RBLX","U",
         "PLTR","PATH","ASAN","DOCN","NCNO","ALTR","BRZE","CWAN","KVYO","RDDT",
 
-        # Momentum / High RS
+        # Momentum / High RS / Market Leaders 2026
         "AXON","DECK","CELH","GDDY","PAYC","VEEV","CPRT","FICO","IDXX","PODD",
         "ALGN","EW","DXCM","MTD","WAT","WST","BIO","NTRA","EXAS","PCVX",
         "IRTC","INSP","TMDX","ATEC","NVCR","NOVT","OMCL","ITGR","UFPT","LBRT",
         "CIVI","CHRD","PDCE","MTDR","CTRA","SM","VTLE","OVVIF","KOS","RRC",
+        "SNDK","TPL","MRNA","GLW","TER","WDC","STX","CIEN","FIX","VRT","SMCI","DELL","HBM",
 
-        # Financials
+        # AI Power, Utilities & Infrastructure
+        "GEV","VST","CEG","NRG","NEE","DUK","SO","AEP","SRE","D","FE","PCG","ETR",
+
+        # Financials, Payments & Insurance
         "JPM","BAC","WFC","C","GS","MS","AXP","BX","KKR","APO",
         "ARES","CG","TPG","HLNE","STEP","HOOD","COIN","SOFI","AFRM","NU",
         "PYPL","SQ","V","MA","SPGI","MCO","ICE","CME","CBOE","NDAQ",
         "FDS","MSCI","VRSK","BR","NTRS","STT","BK","TRV","CB","AON",
+        "PGR","ALL","MMC","AJG","WRB","ACGL","AMP","TROW","BEN","IVZ",
 
-        # Healthcare / Biotech
+        # Healthcare & Biotech
         "LLY","UNH","JNJ","MRK","ABBV","TMO","DHR","ABT","ISRG","SYK",
         "ELV","VRTX","REGN","AMGN","GILD","BIIB","MRNA","BNTX","ALNY","SRPT",
         "RARE","ACAD","IONS","FOLD","KYMR","IMVT","CORT","PRAX","NRIX","RVMD",
         "EXEL","MRUS","ARWR","RCUS","PMVP","IGMS","KROS","ACHR","BEAM","EDIT",
 
-        # Consumer
+        # Consumer, Retail & Leisure
         "HD","MCD","SBUX","NKE","LULU","BKNG","ABNB","UBER","DASH","DUOL",
         "CHWY","ETSY","CVNA","AN","KMX","CACC","ALLY","TJX","COST","WMT",
         "TGT","ULTA","ELF","ONON","CROX","SKX","DECK","WWW","COLM","PVH",
         "RL","TPR","CPRI","VFC","HBI","GIL","LEVI","URBN","ANF","AEO",
 
-        # Industrials
+        # Industrials, Transport & Logistics
         "CAT","HON","GE","RTX","LMT","NOC","TDG","HWM","PWR","STRL",
         "ROAD","MTZ","EME","FIX","ESAB","TT","CARR","OTIS","AME","PH",
         "ROK","SWK","SNA","GGG","GNRC","FELE","AAON","IIVI","MIDD","LYTS",
+        "FDX","UPS","WM","RSG","CMI","UNP","CSX","NSC","CP","CNI","DE","PCAR",
+        "GWW","FAST","URI","VMC","MLM","TYL","CSGP",
 
         # Energy
         "XOM","CVX","COP","EOG","SLB","MPC","PSX","VLO","OXY","HES",
@@ -90,7 +98,7 @@ def get_stock_universe():
 
         # REITs
         "AMT","PLD","CCI","EQIX","SPG","O","WELL","DLR","PSA","EXR",
-        "CUBE","LSI","NSA","REXR","TRNO","LXP","EGP","FR","STAG","COLD",
+        "CUBE","LSI","NSA","REXR","TRNO","LXP","EGP","FR","STAG","COLD"
     ]
     tickers = list(set([t for t in tickers if isinstance(t, str) and 1 <= len(t) <= 5]))
     logger.info(f"Universe size: {len(tickers)} tickers")
