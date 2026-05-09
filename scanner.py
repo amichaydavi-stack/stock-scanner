@@ -33,60 +33,60 @@ TOP_N          = 20
 
 # ── Stock Universe ─────────────────────────────────────────────────────────────
 def get_stock_universe():
-    tickers = [
-        # ── Mega Cap Tech ──────────────────────────────────────────────────────
+    # 1. הרשימה הידנית המורחבת שלך (מכל הסקטורים ששלחת)
+    manual_tickers = [
+        # Mega Cap & Tech
         "AAPL","MSFT","NVDA","GOOGL","GOOG","AMZN","META","TSLA","AVGO","ORCL",
         "ADBE","CRM","CSCO","INTC","QCOM","TXN","AMD","MU","AMAT","LRCX",
         "KLAC","SNPS","CDNS","MRVL","MPWR","ANSS","ENTG","ONTO","ACLS","COHR",
-
-        # ── High Growth / Cloud ────────────────────────────────────────────────
+        # Growth / Cloud
         "NOW","PANW","CRWD","FTNT","ZS","NET","OKTA","CYBR","S","QLYS",
-        "WDAY","INTU","ADSK","ANSS","DDOG","SNOW","MDB","GTLB","CFLT","ESTC",
-        "PLTR","PATH","ASAN","DOCN","DT","NEWR","FIVN","NICE","TOST","BILL",
-        "HUBS","TTD","PUBM","MGNI","APP","APPLOVIN","RBLX","U","UNITY",
-
-        # ── Momentum / High RS ─────────────────────────────────────────────────
+        "WDAY","INTU","ADSK","DDOG","SNOW","MDB","GTLB","CFLT","ESTC",
+        "PLTR","PATH","ASAN","DOCN","DT","FIVN","NICE","TOST","BILL",
+        "HUBS","TTD","PUBM","MGNI","APP","RBLX","U",
+        # Momentum / RS
         "AXON","DECK","CELH","GDDY","PAYC","VEEV","CPRT","FICO","IDXX","PODD",
         "ALGN","EW","DXCM","MTD","WAT","WST","BIO","TECH","NTRA","RXRX",
         "EXAS","PCVX","ACMR","IRTC","INSP","TMDX","ATEC","ALPN","NVCR",
-
-        # ── Financials ────────────────────────────────────────────────────────
-        "JPM","BAC","WFC","C","GS","MS","AXP","BX","KKR","APO",
-        "ARES","CG","TPG","HLNE","STEP","BLUE","HOOD","COIN","SOFI","AFRM",
-        "NU","PYPL","SQ","V","MA","SPGI","MCO","ICE","CME","CBOE",
-
-        # ── Healthcare / Biotech ──────────────────────────────────────────────
-        "LLY","UNH","JNJ","MRK","ABBV","TMO","DHR","ABT","ISRG","SYK",
-        "ELV","VRTX","REGN","AMGN","GILD","BIIB","MRNA","BNTX","RXRX","NTRA",
-        "PCVX","RCUS","ARWR","ALNY","SRPT","RARE","ACAD","IONS","FOLD","KYMR",
-
-        # ── Consumer ──────────────────────────────────────────────────────────
-        "AMZN","HD","MCD","SBUX","NKE","LULU","BKNG","ABNB","UBER","LYFT",
-        "DASH","DUOL","CHWY","ETSY","W","CVNA","AN","KMX","CACC","ALLY",
-        "TJX","COST","WMT","TGT","ULTA","ELF","ONON","CROX","SKX","BIRD",
-
-        # ── Energy ───────────────────────────────────────────────────────────
-        "XOM","CVX","COP","EOG","SLB","MPC","PSX","VLO","OXY","HES",
-        "DVN","FANG","MRO","APA","HAL","BKR","NOV","CTRA","SM","MTDR",
-
-        # ── Industrials ──────────────────────────────────────────────────────
-        "CAT","HON","GE","RTX","LMT","NOC","BA","TDG","AXON","HWM",
-        "PWR","STRL","ROAD","MTZ","ARCO","EME","FIX","ESAB","TT","CARR",
-
-        # ── Materials ────────────────────────────────────────────────────────
-        "LIN","APD","SHW","ECL","FCX","NUE","ALB","MP","USLM","VMC",
-
-        # ── REITs ────────────────────────────────────────────────────────────
-        "AMT","PLD","CCI","EQIX","SPG","O","WELL","DLR","PSA","EXR",
-
-        # ── ETFs (for reference) ──────────────────────────────────────────────
-        "QQQ","SPY","IWM","XLK","XLF","XLV","XLE","XLI","SMH","SOXX",
+        # Financials
+        "JPM","BAC","WFC","C","GS","MS","AXP","BX","KKR","APO","ARES","CG",
+        "TPG","HLNE","STEP","HOOD","COIN","SOFI","AFRM","NU","PYPL","SQ","V","MA",
+        # Healthcare
+        "LLY","UNH","JNJ","MRK","ABBV","TMO","DHR","ABT","ISRG","SYK","VRTX","REGN",
+        # Consumer
+        "HD","MCD","SBUX","NKE","LULU","BKNG","ABNB","UBER","LYFT","DASH","DUOL",
+        "CHWY","ETSY","W","CVNA","TJX","COST","WMT","TGT","ULTA","ELF","ONON",
+        # Energy & Materials
+        "XOM","CVX","COP","EOG","SLB","MPC","PSX","VLO","OXY","HES","LIN","APD","FCX",
+        # Industrials & Quantum (הסקטורים שביקשת לחזק)
+        "CAT","HON","GE","RTX","LMT","NOC","BA","TDG","HWM","PWR","VRT","ETN",
+        "IONQ","RGTI","QBTS","OKLO","QUBT","ARQQ"
     ]
-    tickers = list(set([t for t in tickers if isinstance(t, str) and len(t) <= 5]))
-    logger.info(f"Total unique tickers in universe: {len(tickers)}")
-    return tickers
 
+    try:
+        # 2. משיכה דינמית של S&P 500 מוויקיפדיה (כדי לתפוס מניות חדשות שמתחזקות)
+        sp500_table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]
+        sp500_tickers = sp500_table['Symbol'].tolist()
+        
+        # 3. משיכה דינמית של Nasdaq 100
+        nasdaq100_table = pd.read_html('https://en.wikipedia.org/wiki/Nasdaq-100')[4]
+        nasdaq_tickers = nasdaq100_table['Ticker'].tolist()
+        
+        # איחוד הכל לסט אחד כדי למנוע כפילויות
+        combined_set = set(manual_tickers + sp500_tickers + nasdaq_tickers)
+        
+        # ניקוי: רק מחרוזות, אורך תקין, והחלפת נקודה במקף (עבור BRK.B וכדומה)
+        final_tickers = [
+            str(t).replace('.', '-') for t in combined_set 
+            if isinstance(t, str) and 1 <= len(t) <= 6
+        ]
+        
+        logger.info(f"✅ Universe Unified: {len(final_tickers)} unique tickers being scanned.")
+        return final_tickers
 
+    except Exception as e:
+        logger.error(f"⚠️ Dynamic fetch failed, using your manual list. Error: {e}")
+        return list(set(manual_tickers))
 # ── Technical Indicators ───────────────────────────────────────────────────────
 def compute_rsi(series, period=14):
     delta = series.diff()
